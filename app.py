@@ -98,10 +98,18 @@ create_database()
 # =========================================================
 # 3. OCR ENGINE
 # =========================================================
-
 @st.cache_resource
 def load_ocr():
-    return easyocr.Reader(["en"], gpu=False)
+    try:
+        return easyocr.Reader(
+            ["en"],
+            gpu=False,
+            verbose=False
+        )
+    except Exception as error:
+        st.error("EasyOCR Loading Failed!")
+        st.exception(error)
+        return None
 
 
 # =========================================================
